@@ -1,0 +1,5 @@
+dependencies:
+  - name: zookeeper
+    version: 3.6.1
+    repository: https://docker-remote.registry.kroger.com/zookeeper
+    condition: zookeeper.enabled
