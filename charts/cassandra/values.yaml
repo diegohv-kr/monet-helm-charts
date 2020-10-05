@@ -104,9 +104,11 @@ readinessProbe:
 
 ## Configure node selector. Edit code below for adding selector to pods
 ## ref: https://kubernetes.io/docs/user-guide/node-selection/
-# selector:
-  # nodeSelector:
-    # cloud.google.com/gke-nodepool: pool-db
+nodes:
+  enabled: true
+  selector:
+    nodeSelector:
+      kroger/node-type: workers
 
 ## Additional pod annotations
 ## ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
@@ -142,7 +144,11 @@ affinity: {}
 
 ## Node tolerations for pod assignment
 ## Ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
-tolerations: []
+tolerations:
+  - effect: NoExecute
+    key: kroger/node-type
+    operator: Equal
+    value: workers
 
 rbac:
   # Specifies whether RBAC resources should be created
