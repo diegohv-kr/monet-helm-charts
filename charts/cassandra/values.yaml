@@ -104,11 +104,8 @@ readinessProbe:
 
 ## Configure node selector. Edit code below for adding selector to pods
 ## ref: https://kubernetes.io/docs/user-guide/node-selection/
-nodes:
-  enabled: true
-  selector:
-    nodeSelector:
-      kroger/node-type: workers
+nodeSelector:
+  kroger/node-type: workers
 
 ## Additional pod annotations
 ## ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
