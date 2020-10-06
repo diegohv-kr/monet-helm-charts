@@ -24,4 +24,10 @@ nodetool status
 // cassandra/install.sh
 
 //don't forget your namespace. env vars don't seem to always work.
-kubectl -n cassandra get pods
+kubectl -n cassandra get pods -n cassandra
+
+//https://myadventuresincoding.wordpress.com/2019/07/11/cassandra-restarting-a-node-in-a-cluster/
+nodetool drain
+systemctl status cassandra
+systemctl stop cassandra
+systemctl start cassandra
