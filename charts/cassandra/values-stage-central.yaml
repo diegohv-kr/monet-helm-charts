@@ -15,4 +15,4 @@ config:
 
 storage:
   persistence:
-    size: 10Gi
+    size: 100Gi

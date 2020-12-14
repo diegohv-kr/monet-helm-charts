@@ -3,7 +3,7 @@
 nodeSelector:
   kroger/node-type: workers-sf
 
-## Node tolerations for pod assignment for stage east
+## Node tolerations for pod assignment for stage central
 tolerations:
   - effect: NoExecute
     key: kroger/node-type
@@ -15,4 +15,4 @@ config:
 
 storage:
   persistence:
-    size: 100Gi
+    size: 1000Gi

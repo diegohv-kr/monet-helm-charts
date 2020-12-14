@@ -5,4 +5,4 @@ helm package cassandra
 # helm install monetization-cassandra ./cassandra --namespace cassandra
 
 #uses files for configs - cleaner implementation
-helm upgrade -f cassandra/values-stage-central.yaml monetization-cassandra cassandra -n cassandra
+helm upgrade -f cassandra/values-test.yaml monetization-cassandra cassandra -n cassandra
