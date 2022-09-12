@@ -17,7 +17,7 @@ service:
 ## Use an alternate scheduler, e.g. "stork".
 ## ref: https://kubernetes.io/docs/tasks/administer-cluster/configure-multiple-schedulers/
 ##
-schedulerName: stork
+schedulerName: default
 
 ## Persist data to a persistent volume
 persistence:
@@ -29,7 +29,7 @@ persistence:
   ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
   ##   GKE, AWS & OpenStack)
   ##
-  storageClass: "px-high-io-sc"
+  storageClass: "rpd-ssd"
   accessMode: ReadWriteOnce
   size: 10Gi
 
