@@ -1,0 +1,12 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: monetization-cassandra-claim
+  # annotations:
+  #   volume.beta.kubernetes.io/storage-class: px-high-io-sc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5G

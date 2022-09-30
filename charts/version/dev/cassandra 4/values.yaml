@@ -31,7 +31,7 @@ persistence:
   ##
   storageClass: "rpd-ssd"
   accessMode: ReadWriteOnce
-  size: 200Gi
+  size: 5Gi
 
 ## Configure resource requests and limits
 ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
@@ -54,7 +54,7 @@ resources:
 config:
   cluster_domain: cluster.local
   cluster_name: monetization
-  cluster_size: 6
+  cluster_size: 4
   seed_size: 2
   num_tokens: 256
   # If you want Cassandra to use this datacenter and rack name,
@@ -105,7 +105,7 @@ readinessProbe:
 ## Configure node selector. Edit code below for adding selector to pods
 ## ref: https://kubernetes.io/docs/user-guide/node-selection/
 nodeSelector:
-  kroger/node-type: workers-sf
+  kroger/node-type: workers
 
 ## Additional pod annotations
 ## ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
@@ -145,7 +145,7 @@ tolerations:
   - effect: NoExecute
     key: kroger/node-type
     operator: Equal
-    value: workers-sf
+    value: workers
 
 rbac:
   # Specifies whether RBAC resources should be created

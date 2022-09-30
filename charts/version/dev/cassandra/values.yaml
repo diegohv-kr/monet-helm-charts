@@ -17,7 +17,7 @@ service:
 ## Use an alternate scheduler, e.g. "stork".
 ## ref: https://kubernetes.io/docs/tasks/administer-cluster/configure-multiple-schedulers/
 ##
-# schedulerName: default
+schedulerName: stork
 
 ## Persist data to a persistent volume
 persistence:
@@ -29,9 +29,9 @@ persistence:
   ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
   ##   GKE, AWS & OpenStack)
   ##
-  storageClass: "rpd-ssd"
+  storageClass: "px-high-io-sc"
   accessMode: ReadWriteOnce
-  size: 200Gi
+  size: 10Gi
 
 ## Configure resource requests and limits
 ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
@@ -104,8 +104,9 @@ readinessProbe:
 
 ## Configure node selector. Edit code below for adding selector to pods
 ## ref: https://kubernetes.io/docs/user-guide/node-selection/
+# selector:
 nodeSelector:
-  kroger/node-type: workers-sf
+  kroger/node-type: workers
 
 ## Additional pod annotations
 ## ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
@@ -145,7 +146,7 @@ tolerations:
   - effect: NoExecute
     key: kroger/node-type
     operator: Equal
-    value: workers-sf
+    value: workers
 
 rbac:
   # Specifies whether RBAC resources should be created

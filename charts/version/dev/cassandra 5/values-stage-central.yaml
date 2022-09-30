@@ -1,0 +1,18 @@
+## Configure node selector. Edit code below for adding selector to pods
+## ref: https://kubernetes.io/docs/user-guide/node-selection/
+nodeSelector:
+  kroger/node-type: workers-sf
+
+## Node tolerations for pod assignment for stage central
+tolerations:
+  - effect: NoExecute
+    key: kroger/node-type
+    operator: Equal
+    value: workers-sf
+
+config:
+  cluster_size: 3
+
+storage:
+  persistence:
+    size: 100Gi

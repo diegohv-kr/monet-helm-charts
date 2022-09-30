@@ -1,0 +1,34 @@
+//TEST
+kubectl delete statefulset --cascade=false -n cassandra monetization-cassandra
+//helm upgrade --set config.cluster_size=3 --set persistence.size=10Gi monetization-cassandra cassandra -n cassandra
+
+
+//STAGE
+//kubectl delete statefulset --cascade=false -n cassandra monetization-cassandra
+//helm upgrade --set config.cluster_size=3 --set persistence.size=100Gi monetization-cassandra cassandra -n cassandra
+helm upgrade -f cassandra/values-stage-east.yaml monetization-cassandra cassandra -n cassandra
+
+//PROD
+kubectl delete statefulset --cascade=false -n cassandra monetization-cassandra
+//helm upgrade --set config.cluster_size=6 --set persistence.size=1000Gi monetization-cassandra cassandra -n cassandra
+
+//we need to determine how to make the storageclass size variable per env. - make it a variable int he pipelines
+
+//after the upgrade the existing nodes don't get the changes as they are running. I ended up killing them to get them to restart and pick up.
+//seems that there should be a cleaner way.
+
+//to see if the nodes are up, run
+nodetool status
+//inside of an existing pod
+
+//create package
+// cassandra/install.sh
+
+//don't forget your namespace. env vars don't seem to always work.
+kubectl -n cassandra get pods -n cassandra
+
+//https://myadventuresincoding.wordpress.com/2019/07/11/cassandra-restarting-a-node-in-a-cluster/
+nodetool drain
+systemctl status cassandra
+systemctl stop cassandra
+systemctl start cassandra
