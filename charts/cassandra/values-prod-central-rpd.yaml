@@ -17,7 +17,6 @@ service:
 ## Use an alternate scheduler, e.g. "stork".
 ## ref: https://kubernetes.io/docs/tasks/administer-cluster/configure-multiple-schedulers/
 ##
-# schedulerName: default
 
 ## Persist data to a persistent volume
 persistence:
@@ -31,7 +30,7 @@ persistence:
   ##
   storageClass: "rpd-ssd"
   accessMode: ReadWriteOnce
-  size: 200Gi
+  size: 2000Gi
 
 ## Configure resource requests and limits
 ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
@@ -40,11 +39,10 @@ persistence:
 ## ref: http://docs.datastax.com/en/archived/cassandra/2.0/cassandra/architecture/architecturePlanningHardware_c.html
 resources:
    requests:
-     memory: 4Gi
-     cpu: 2
+     memory: 25Gi
+     cpu: 5
    limits:
-     memory: 16Gi
-     cpu: 4
+     memory: 25Gi
 
 ## Change cassandra configuration parameters below:
 ## ref: http://docs.datastax.com/en/cassandra/3.0/cassandra/configuration/configCassandra_yaml.html
@@ -187,46 +185,3 @@ backup:
   # Additional arguments for cain
   # Ref: https://github.com/maorfr/cain#usage
   extraArgs: []
-
-  # Add additional environment variables
-  env:
-  # Example environment variable required for AWS credentials chain
-  - name: AWS_REGION
-    value: us-east-1
-
-  resources:
-    requests:
-      memory: 1Gi
-      cpu: 1
-    limits:
-      memory: 1Gi
-      cpu: 1
-
-  # Name of the secret containing the credentials of the service account used by GOOGLE_APPLICATION_CREDENTIALS, as a credentials.json file
-  # google:
-    # serviceAccountSecret:
-
-  # Destination to store the backup artifacts
-  # Supported cloud storage services: AWS S3, Minio S3, Azure Blob Storage, Google Cloud Storage
-  # Additional support can added. Visit this repository for details
-  # Ref: https://github.com/maorfr/skbn
-  destination: s3://bucket/cassandra
-
-## Cassandra exported configuration
-## ref: https://github.com/criteo/cassandra_exporter
-exporter:
-  # If exporter is enabled this will create a ServiceMonitor by default as well
-  servicemonitor: true
-  enabled: false
-  image:
-    repo: criteord/cassandra_exporter
-    tag: 2.0.2
-  port: 5556
-  jvmOpts: ""
-  resources: {}
-    # limits:
-    #   cpu: 1
-    #   memory: 16Gi
-    # requests:
-    #   cpu: 1
-    #   memory: 16Gi
