@@ -1,0 +1,31 @@
+## Configure node selector. Edit code below for adding selector to pods
+## ref: https://kubernetes.io/docs/user-guide/node-selection/
+nodeSelector:
+  kroger/node-type: workers-sf
+
+## Node tolerations for pod assignment for stage east
+tolerations:
+  - effect: NoExecute
+    key: kroger/node-type
+    operator: Equal
+    value: workers-sf
+
+resources:
+   requests:
+     memory: 18Gi # Allocate more memory and cpu for production environment, we have allocated on stage and prod 25Gi and 5 cpus
+     cpu: 5
+   limits:
+     memory: 18Gi
+     cpu: 5
+
+config:
+  cluster_size: 3
+  seed_size: 2
+  num_tokens: 4 # Default is 256, the only way to modify the num_tokens, we have to delete the existing node, we have to add new nodes, and eventually delete the old nodes
+  dc_name: DC1
+  rack_name: RAC1
+  endpoint_snitch: GossipingPropertyFileSnitch # Same as the num_tokens, we have to delete the existing node, we have to add new nodes, and eventually delete the old nodes
+
+storage:
+  persistence:
+    size: 200Gi

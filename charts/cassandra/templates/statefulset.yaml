@@ -170,7 +170,15 @@ spec:
         {{- end }}
         volumeMounts:
         - name: data
-          mountPath: /var/lib/cassandra
+          mountPath: /var/lib/cassandra/data
+        - name: hints-volume
+          mountPath: /var/lib/cassandra/hints
+        - name: lost-found-volume
+          mountPath: /var/lib/cassandra/lost+found
+        - name: saved-caches-volume
+          mountPath: /var/lib/cassandra/saved_caches
+        - name: commitlog-volume
+          mountPath: /var/lib/cassandra/commitlog
         {{- if .Values.configOverrides }}
         - name: cassandra-configs
           mountPath: /etc/cassandra
@@ -200,7 +208,20 @@ spec:
 {{- end }}
 {{- if not .Values.persistence.enabled }}
       - name: data
-        emptyDir: {}
+        persistentVolumeClaim:
+          claimName: data
+      - name: hints-volume
+        persistentVolumeClaim:
+          claimName: data
+      - name: lost-found-volume
+        persistentVolumeClaim:
+          claimName: data
+      - name: saved-caches-volume
+        persistentVolumeClaim:
+          claimName: data
+      - name: commitlog-volume
+        persistentVolumeClaim:
+          claimName: data
 {{- else }}
   volumeClaimTemplates:
   - metadata:
