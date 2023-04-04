@@ -25,6 +25,8 @@ config:
   dc_name: DC1
   rack_name: RAC1
   endpoint_snitch: GossipingPropertyFileSnitch # Same as the num_tokens, we have to delete the existing node, we have to add new nodes, and eventually delete the old nodes
+  write_request_timeout_in_ms: 5000 # CASSANDRA_WRITE_REQUEST_TIMEOUT_IN_MS sets the maximum time allowed for a write request to complete, and is set to 5000 milliseconds (or 5 seconds) 
+  consistency_level: "ONE" # CASSANDRA_CONSISTENCY_LEVEL environment variable sets the consistency level for writes to ONE
 
 storage:
   persistence:
