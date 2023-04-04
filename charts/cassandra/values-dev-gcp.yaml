@@ -12,7 +12,7 @@ tolerations:
 
 resources:
    requests:
-     memory: 18Gi # Allocate more memory and cpu for production environment, we have allocated on stage and prod 25Gi and 5 cpus
+     memory: 18Gi # Allocate more memory and cpu for production environment, we have allocated on dev 18Gi and 5 cpus
      cpu: 5
    limits:
      memory: 18Gi
