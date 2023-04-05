@@ -129,6 +129,10 @@ spec:
           value: {{ default "RAC1" .Values.config.rack_name | quote }}
         - name: CASSANDRA_START_RPC
           value: {{ default "false" .Values.config.start_rpc | quote }}
+        - name: CASSANDRA_WRITE_REQUEST_TIMEOUT_IN_MS
+          value: {{ default "5000" .Values.config.write_request_timeout_in_ms | quote }}
+        - name: CASSANDRA_CONSISTENCY_LEVEL
+          value: {{ default "ONE" .Values.config.consistency_level | quote }}
         - name: POD_IP
           valueFrom:
             fieldRef:
@@ -170,7 +174,15 @@ spec:
         {{- end }}
         volumeMounts:
         - name: data
-          mountPath: /var/lib/cassandra
+          mountPath: /var/lib/cassandra/data
+        - name: hints-volume
+          mountPath: /var/lib/cassandra/hints
+        - name: lost-found-volume
+          mountPath: /var/lib/cassandra/lost+found
+        - name: saved-caches-volume
+          mountPath: /var/lib/cassandra/saved_caches
+        - name: commitlog-volume
+          mountPath: /var/lib/cassandra/commitlog
         {{- if .Values.configOverrides }}
         - name: cassandra-configs
           mountPath: /etc/cassandra
@@ -200,7 +212,20 @@ spec:
 {{- end }}
 {{- if not .Values.persistence.enabled }}
       - name: data
-        emptyDir: {}
+        persistentVolumeClaim:
+          claimName: data
+      - name: hints-volume
+        persistentVolumeClaim:
+          claimName: data
+      - name: lost-found-volume
+        persistentVolumeClaim:
+          claimName: data
+      - name: saved-caches-volume
+        persistentVolumeClaim:
+          claimName: data
+      - name: commitlog-volume
+        persistentVolumeClaim:
+          claimName: data
 {{- else }}
   volumeClaimTemplates:
   - metadata:
