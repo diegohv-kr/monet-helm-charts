@@ -42,7 +42,6 @@ resources:
      memory: 24Gi
      cpu: 5
    limits:
-     memory: 48Gi
      cpu: 8
 
 ## Change cassandra configuration parameters below:
