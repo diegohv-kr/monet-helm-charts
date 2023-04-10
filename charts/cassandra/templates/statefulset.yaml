@@ -174,15 +174,7 @@ spec:
         {{- end }}
         volumeMounts:
         - name: data
-          mountPath: /var/lib/cassandra/data
-        - name: hints-volume
-          mountPath: /var/lib/cassandra/hints
-        - name: lost-found-volume
-          mountPath: /var/lib/cassandra/lost+found
-        - name: saved-caches-volume
-          mountPath: /var/lib/cassandra/saved_caches
-        - name: commitlog-volume
-          mountPath: /var/lib/cassandra/commitlog
+          mountPath: /var/lib/cassandra
         {{- if .Values.configOverrides }}
         - name: cassandra-configs
           mountPath: /etc/cassandra
