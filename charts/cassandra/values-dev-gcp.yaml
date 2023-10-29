@@ -1,0 +1,31 @@
+## Configure node selector. Edit code below for adding selector to pods
+## ref: https://kubernetes.io/docs/user-guide/node-selection/
+nodeSelector:
+  kroger/node-type: workers-sf
+
+## Node tolerations for pod assignment for stage east
+tolerations:
+  - effect: NoExecute
+    key: kroger/node-type
+    operator: Equal
+    value: workers-sf
+
+resources:
+   requests:
+     memory: 8Gi # Allocate more memory and cpu for production environment, we have allocated on dev limit 18Gi and 5 cpus
+     cpu: 3
+   limits:
+     memory: 16Gi
+     cpu: 5
+
+config:
+  cluster_size: 5
+  seed_size: 2
+  dc_name: DC1
+  rack_name: RAC1
+  write_request_timeout_in_ms: 5000 # CASSANDRA_WRITE_REQUEST_TIMEOUT_IN_MS sets the maximum time allowed for a write request to complete, and is set to 5000 milliseconds (or 5 seconds) 
+  consistency_level: "ONE" # CASSANDRA_CONSISTENCY_LEVEL environment variable sets the consistency level for writes to ONE
+
+storage:
+  persistence:
+    size: 200Gi
