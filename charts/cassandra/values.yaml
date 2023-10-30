@@ -42,8 +42,6 @@ resources:
    requests:
      memory: 4Gi
      cpu: 2
-   limits:
-     cpu: 4
 
 ## Change cassandra configuration parameters below:
 ## ref: http://docs.datastax.com/en/cassandra/3.0/cassandra/configuration/configCassandra_yaml.html
