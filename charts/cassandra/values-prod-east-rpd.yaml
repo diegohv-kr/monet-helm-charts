@@ -40,7 +40,7 @@ persistence:
 resources:
    requests:
      memory: 40Gi
-     cpu: 5
+     cpu: 10
 
 ## Change cassandra configuration parameters below:
 ## ref: http://docs.datastax.com/en/cassandra/3.0/cassandra/configuration/configCassandra_yaml.html
