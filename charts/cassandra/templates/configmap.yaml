@@ -10,5 +10,13 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 data:
-{{ toYaml .Values.configOverrides | indent 2 }}
+  {{- range $key, $value := .Values.configOverrides }}
+  {{- if eq $key "jvm.options" }}
+  jvm.options: |-
+    {{- $.Files.Get "files/jvm.options" | nindent 8 }}
+  {{- else }}
+  {{ $key }}: |-
+    {{- $value | nindent 8 }}
+  {{- end }}
+  {{- end }}
 {{- end }}
