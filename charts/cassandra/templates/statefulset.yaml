@@ -176,8 +176,10 @@ spec:
         - name: data
           mountPath: /var/lib/cassandra
         {{- if .Values.configOverrides }}
+        # Mount the custom jvm.options
         - name: cassandra-configs
-          mountPath: /etc/cassandra
+          mountPath: /etc/cassandra/jvm.options
+          subPath: jvm.options
         {{- end }}
         {{- if not .Values.persistence.enabled }}
         lifecycle:

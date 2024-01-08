@@ -55,7 +55,7 @@ resources:
 config:
   cluster_domain: cluster.local
   cluster_name: monetization
-  cluster_size: 6
+  cluster_size: 5
   seed_size: 2
   num_tokens: 256
   # If you want Cassandra to use this datacenter and rack name,
@@ -77,7 +77,8 @@ config:
     # agent: 61621
 
 ## Cassandra config files overrides
-configOverrides: {}
+configOverrides:
+  jvm.options: "placeholder-for-jvm-options"
 
 ## Cassandra docker command overrides
 commandOverrides: []
