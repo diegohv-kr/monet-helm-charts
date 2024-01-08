@@ -32,9 +32,6 @@ persistence:
   accessMode: ReadWriteOnce
   size: 500Gi
 
-## Configure garbage collection
-jvmOpts: "-XX:+UseG1GC"
-
 ## Configure resource requests and limits
 ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
 ## Minimum memory for development is 4GB and 2 CPU cores
