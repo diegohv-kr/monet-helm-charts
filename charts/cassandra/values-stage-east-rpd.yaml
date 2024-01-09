@@ -64,8 +64,8 @@ config:
   endpoint_snitch: SimpleSnitch
   write_request_timeout_in_ms: 5000 # CASSANDRA_WRITE_REQUEST_TIMEOUT_IN_MS sets the maximum time allowed for a write request to complete, and is set to 5000 milliseconds (or 5 seconds) 
   consistency_level: "ONE" # CASSANDRA_CONSISTENCY_LEVEL environment variable sets the consistency level for writes to ONE
-  max_heap_size: "16G"
-  heap_new_size: "4G"
+  max_heap_size: 8192M
+  heap_new_size: 2048M
   start_rpc: false
   ports:
     cql: 9042
@@ -74,8 +74,7 @@ config:
     # agent: 61621
 
 ## Cassandra config files overrides
-configOverrides:
-  jvm.options: "placeholder-for-jvm-options"
+configOverrides: {}
 
 ## Cassandra docker command overrides
 commandOverrides: []

@@ -60,8 +60,8 @@ config:
   dc_name: DC1
   rack_name: RAC1
   endpoint_snitch: SimpleSnitch
-  max_heap_size: 8192M
-  heap_new_size: 2048M
+  max_heap_size: "25G"
+  heap_new_size: "6G"
   start_rpc: false
   ports:
     cql: 9042
@@ -70,7 +70,8 @@ config:
     # agent: 61621
 
 ## Cassandra config files overrides
-configOverrides: {}
+configOverrides:
+  jvm.options: "placeholder-for-jvm-options"
 
 ## Cassandra docker command overrides
 commandOverrides: []
