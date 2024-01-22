@@ -1,0 +1,4 @@
+apiVersion: v2
+name: cassandra-compaction-chart
+description: A Helm chart for automating Cassandra compaction throughput management and specific table compactions in Kubernetes
+version: 0.1.0

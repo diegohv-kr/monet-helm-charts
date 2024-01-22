@@ -1,0 +1,24 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: decrease-compaction-throughput
+spec:
+  schedule: "{{ .Values.compaction.decrease.schedule }}"  # Uses schedule from values.yaml
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          namespace: "{{ .Values.cassandra.namespace }}"
+        spec:
+          containers:
+          - name: adjust-compaction
+            image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+            command: ["/bin/bash", "/scripts/adjust-compaction.sh", "256"]  # Set to 256 MB/s
+            volumeMounts:
+            - name: scripts
+              mountPath: /scripts
+          volumes:
+          - name: scripts
+            configMap:
+              name: cassandra-scripts
+          restartPolicy: OnFailure
