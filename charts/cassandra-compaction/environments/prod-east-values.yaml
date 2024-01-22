@@ -13,18 +13,6 @@ compaction:
     schedule: "0 17 * * *" # 12 PM EST in UTC
     throughput: 256 # Decreased compaction throughput
 
-  # Custom compaction jobs
-  customJobs:
-    # Compaction job for the 'promos' table
-    promos:
-      schedule: "1 13 * * 1" # Every Monday at 8:01 EST (13:01 UTC)
-      command: "nodetool compact --split-output monetization promos"
-
-    # Compaction job for the 'espot-promos' table
-    espotpromos:
-      schedule: "1 13 * * 4" # Every Thursday at 8:01 EST (13:01 UTC)
-      command: "nodetool compact --split-output monetization espot-promos"
-
 cassandra:
   namespace: cassandra
   label: statefulset.kubernetes.io/pod-name=monetization-cassandra
