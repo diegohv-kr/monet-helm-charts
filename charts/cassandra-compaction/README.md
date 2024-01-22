@@ -12,7 +12,7 @@ This Helm chart automates the management of compaction throughput for a Cassandr
 
 ## Installation
 
-1. **Clone the Chart Repository:**
+1. **Move to cassandra-compaction-chart directory:**
 
    ```bash
    cd cassandra-compaction-chart
