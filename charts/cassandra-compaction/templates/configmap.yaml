@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cassandra-scripts
+data:
+  adjust-compaction.sh: |
+    #!/bin/bash
+    for pod in $(kubectl get pods -n {{ .Values.cassandra.namespace }} -l {{ .Values.cassandra.label }} -o jsonpath="{.items[*].metadata.name}")
+    do
+      kubectl exec -n {{ .Values.cassandra.namespace }} $pod -- nodetool setcompactionthroughput $1
+    done

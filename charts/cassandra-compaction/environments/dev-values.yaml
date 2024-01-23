@@ -1,0 +1,18 @@
+image:
+  repository: bitnami/kubectl
+  tag: latest
+
+compaction:
+  # Settings for increasing compaction throughput
+  increase:
+    schedule: "0 1 * * *" # 8 PM EST in UTC
+    throughput: 0 # Un-throttled compaction throughput
+
+  # Settings for decreasing compaction throughput
+  decrease:
+    schedule: "0 17 * * *" # 12 PM EST in UTC
+    throughput: 256 # Decreased compaction throughput
+
+cassandra:
+  namespace: cassandra
+  label: statefulset.kubernetes.io/pod-name=monetization-cassandra
