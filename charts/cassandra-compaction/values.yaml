@@ -10,7 +10,7 @@ compaction:
 
   # Settings for decreasing compaction throughput
   decrease:
-    schedule: "0 17 * * *" # 12 PM EST in UTC
+    schedule: "0 5 * * *"  # 5 AM UTC, which is Midnight EST
     throughput: 256 # Decreased compaction throughput
 
 cassandra:
