@@ -23,3 +23,6 @@ This Helm chart automates the management of compaction throughput for a Cassandr
    ./install.sh [environment]-values.yaml
 
 Replace [environment] with the appropriate environment name, like dev, stage-east, etc.
+
+2. **Uninstall helm Chart:**
+helm uninstall cassandra-compaction-chart -n cassandra
