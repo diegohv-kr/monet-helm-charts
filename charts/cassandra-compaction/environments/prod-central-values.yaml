@@ -10,8 +10,15 @@ compaction:
 
   # Settings for decreasing compaction throughput
   decrease:
-    schedule: "0 17 * * *" # 12 PM EST in UTC
+    schedule: "0 5 * * *"  # 5 AM UTC, which is Midnight EST
     throughput: 256 # Decreased compaction throughput
+  customJobs:
+    espotpromos:
+      schedule: "1 1 1,15 * *"  # 1:01 AM UTC on the 1st and 15th of each month
+      command: "nodetool compact --split-output monetization espot_promos"
+    promos:
+      schedule: "1 1 7,21 * *"  # 1:01 AM UTC on the 7th and 21st of each month
+      command: "nodetool compact --split-output monetization promos"
 
 cassandra:
   namespace: cassandra
