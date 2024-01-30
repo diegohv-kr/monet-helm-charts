@@ -9,6 +9,9 @@ metadata:
     heritage: {{ .Release.Service }}
   {{- with .Values.service.annotations }}
   annotations:
+    {{- if .Values.service.annotations.externalDNS }}
+    external-dns.alpha.kubernetes.io/hostname: {{ .Values.service.annotations.externalDNS }}
+    {{- end }}
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
