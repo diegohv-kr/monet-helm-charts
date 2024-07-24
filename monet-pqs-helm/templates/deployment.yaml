@@ -1,0 +1,117 @@
+{{- if .Values.env.config}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{.Values.name}}
+  namespace: {{.Values.namespace}}
+data:
+  {{.Values.env.config | toYaml | indent 2}}
+---
+{{- end}}
+
+  {{- if .Values.env.secrets}}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{.Values.name}}
+  namespace: {{.Values.namespace}}
+stringData:
+  {{.Values.env.secrets | toYaml | indent 2}}
+---
+{{- end}}
+
+  {{- if .Values.dockercfg}}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{.Values.name}}-dockercfg
+  namespace: {{.Values.namespace}}
+  annotations:
+    harness.io/skip-versioning: "false"
+data:
+  .dockercfg: {{.Values.dockercfg}}
+type: kubernetes.io/dockercfg
+---
+  {{- end}}
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: {{.Values.name}}
+    app.kubernetes.io/instance: {{.Values.namespace}}
+  name: {{.Values.name}}
+  namespace: {{.Values.namespace}}
+spec:
+  replicas: {{int .Values.autoscaling.minReplicas}}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{.Values.name}}
+      app.kubernetes.io/instance: {{.Values.namespace}}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{.Values.name}}
+        app.kubernetes.io/instance: {{.Values.namespace}}
+    spec:
+      securityContext:
+        {}
+      {{- if .Values.dockercfg}}
+      imagePullSecrets:
+        - name: {{.Values.name}}-dockercfg
+      {{- end}}
+      containers:
+        - name: {{.Values.name}}
+          securityContext:
+            {}
+          image: {{.Values.image}}
+          imagePullPolicy: Always
+          env:
+            - name: DT_RELEASE_PRODUCT
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.labels['app.kubernetes.io/name']
+            - name: DT_RELEASE_STAGE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.labels['app.kubernetes.io/stage']
+          {{- if .Values.probes.liveness.enabled}}
+          livenessProbe:
+            httpGet:
+              path: {{.Values.probes.liveness.httpPath}}
+              port: {{.Values.servicePort}}
+            initialDelaySeconds: {{.Values.probes.liveness.initialDelaySeconds}}
+            periodSeconds: {{.Values.probes.liveness.periodSeconds}}
+            timeoutSeconds: {{.Values.probes.liveness.timeoutSeconds}}
+            failureThreshold: {{.Values.probes.liveness.failureThreshold}}
+          {{- end}}
+          {{- if .Values.probes.readiness.enabled}}
+          readinessProbe:
+            httpGet:
+              path: {{.Values.probes.readiness.httpPath}}
+              port: {{.Values.servicePort}}
+            initialDelaySeconds: {{.Values.probes.readiness.initialDelaySeconds}}
+            periodSeconds: {{.Values.probes.readiness.periodSeconds}}
+            timeoutSeconds: {{.Values.probes.readiness.timeoutSeconds}}
+            failureThreshold: {{.Values.probes.readiness.failureThreshold}}
+          {{- end}}
+          {{- if .Values.resources}}
+          resources:
+            requests:
+              cpu: {{.Values.resources.requests.cpu}}
+              memory: {{.Values.resources.requests.memory}}
+            limits:
+              memory: {{.Values.resources.limits.memory}}
+          {{- end}}
+          envFrom:
+          {{- if .Values.env.config}}
+          - configMapRef:
+              name: {{.Values.name}}
+          {{- end}}
+          {{- if .Values.env.secrets}}
+          - secretRef:
+              name: {{.Values.name}}
+          {{- end}}
+          {{- end}}
+
+      dnsPolicy: {{.Values.dns.policy}}

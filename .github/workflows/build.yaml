@@ -1,0 +1,39 @@
+name: Build and Publish
+on:
+  workflow_dispatch:
+    inputs:
+      service:
+        type: choice
+        description: Select service to publish
+        required: true
+        options:
+          - monet-pqs-helm
+
+
+env:
+  PROJECT_DOMAIN: "monetization"
+
+jobs:
+  helm_build:
+    name: Package and Publish
+    runs-on: [ self-hosted, linux, tsa, kroger ]
+    steps:
+      # Set up GIT environment.
+      - name: 1. Check out code
+        uses: actions/checkout@v4
+
+      - name: 2. Install helm
+        uses: azure/setup-helm@v4
+        with:
+          version: 'v3.13.3'
+
+      - name: 3. Helm Package
+        run: |
+          helm package ${{ inputs.service }} -d build
+          helm repo add helm https://krogertechnology.jfrog.io/artifactory/helm --username ${{ secrets.HELM_USER }} --password ${{ secrets.HELM_PASSWORD }}
+      - name: 4. Helm Chart Publish
+        run: |
+          CHART_VERSION=$(grep "version:" ${{ inputs.service }}/Chart.yaml | awk '{print $2}')
+          CHART_FILENAME=${{ inputs.service }}-${CHART_VERSION}.tgz
+          ARTIFACT_MD5_CHECKSUM=$(md5sum build/$CHART_FILENAME | awk '{print $1}')
+          curl --fail -v -u ${{ secrets.HELM_USER }}:${{ secrets.HELM_PASSWORD }} -T build/$CHART_FILENAME -H "X-Checksum-MD5:${ARTIFACT_MD5_CHECKSUM}" https://krogertechnology.jfrog.io/artifactory/helm/${{ env.PROJECT_DOMAIN }}/${{ inputs.service }}/$CHART_FILENAME

@@ -1,0 +1,69 @@
+name: pqs
+
+image: <+artifact.image>
+dockercfg: <+artifact.imagePullSecret>
+
+namespace: <+infra.namespace>
+
+# Service Type allow you to specify what kind of service you want.
+# Possible values for ServiceType are:
+# ClusterIP | NodePort | LoadBalancer | ExternalName
+serviceType: ClusterIP
+
+# A Service can map an incoming port to any targetPort.
+# targetPort is where application is listening on inside the container.
+servicePort: 8080
+serviceTargetPort: 8080
+protocol: TCP
+
+# This information should be overriden by each one of the environments, they
+# vary between environments and DataCenters
+ingress:
+  hostnamePrefix: monet-pqs
+  hostnameSuffix: chengeit
+  path: /
+  tlsSecretName: changeit
+
+autoscaling:
+  enabled: false
+  minReplicas: chengeit
+  maxReplicas: 1
+  targetCPUUtilizationPercentage: 50
+  targetMemoryUtilizationPercentage: 30
+
+resources:
+  requests:
+    cpu: 500m
+    memory: 8Gi
+  limits:
+    memory: 8Gi
+
+probes:
+  readiness:
+    enabled: true
+    httpPath: /v1/pqs/health
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    timeoutSeconds: 2
+    failureThreshold: 3
+  liveness:
+    enabled: true
+    httpPath: /v1/pqs/health
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    timeoutSeconds: 2
+    failureThreshold: 6
+
+dns:
+  policy: ClusterFirst
+
+# Specify all environment variables to be added to the container.
+# The following two maps, config and secrets, are put into a ConfigMap
+# and a Secret, respectively.
+# Both are added to the container environment in podSpec as envFrom source.
+env:
+  config:
+    APPLICATION_VERSION: <+artifact.tag>
+    DATA_CENTER: <+infra.connectorRef>
+  secrets:
+
