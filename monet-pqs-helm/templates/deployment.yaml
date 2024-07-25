@@ -5,7 +5,7 @@ metadata:
   name: {{.Values.name}}
   namespace: {{.Values.namespace}}
 data:
-  {{.Values.env.config | toYaml | indent 2}}
+{{.Values.env.config | toYaml | indent 2}}
 ---
 {{- end}}
 
@@ -111,7 +111,6 @@ spec:
           {{- if .Values.env.secrets}}
           - secretRef:
               name: {{.Values.name}}
-          {{- end}}
           {{- end}}
 
       dnsPolicy: {{.Values.dns.policy}}

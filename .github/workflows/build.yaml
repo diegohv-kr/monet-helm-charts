@@ -16,11 +16,11 @@ env:
 jobs:
   helm_build:
     name: Package and Publish
-    runs-on: [ self-hosted, linux, tsa, kroger ]
+    runs-on: [ self-hosted, kubernetes, on-prem ]
     steps:
       # Set up GIT environment.
       - name: 1. Check out code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v2
 
       - name: 2. Install helm
         uses: azure/setup-helm@v4
