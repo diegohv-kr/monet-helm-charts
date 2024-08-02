@@ -8,6 +8,7 @@ on:
         required: true
         options:
           - monet-pqs-helm
+          - monet-premium-targeting-helm
 
 
 env:
