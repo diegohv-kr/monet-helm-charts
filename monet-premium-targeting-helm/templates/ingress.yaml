@@ -1,0 +1,29 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{.Values.name}}
+  namespace: {{.Values.namespace}}
+  labels:
+    app.kubernetes.io/name: {{.Values.name}}
+    app.kubernetes.io/instance: {{.Values.namespace}}
+  annotations:
+    cert-manager.io/issuer: krogerissuer
+    cert-manager.io/issuer-kind: KrogerIssuer
+    cert-manager.io/issuer-group: certs
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: {{.Values.ingress.hostnamePrefix}}{{.Values.ingress.hostnameSuffix}}
+      http:
+        paths:
+          - backend:
+              service:
+                name: {{.Values.name}}
+                port:
+                  number: {{.Values.servicePort}}
+            path: {{.Values.ingress.path}}
+            pathType: ImplementationSpecific
+  tls:
+    - hosts:
+        - {{.Values.ingress.hostnamePrefix}}{{.Values.ingress.hostnameSuffix}}
+      secretName: {{.Values.ingress.tlsSecretName}}
