@@ -67,5 +67,9 @@ env:
     DATA_CENTER: <+infra.connectorRef>
     JASYPT_KEY: <+serviceVariables.JASYPT_KEY>
     CASSANDRA_CONTACT_POINTS: <+serviceVariables.CASSANDRA_CONTACT_POINTS>
+    GCP_SEGMENTS_BUCKET: <+serviceVariables.GCP_SEGMENTS_BUCKET>
+    GCP_PUB_SUB_SUBSCRIPTION: <+serviceVariables.GCP_PUB_SUB_SUBSCRIPTION>
+    GCP_TOPIC_LOAD_NOTIFICATION: <+serviceVariables.GCP_TOPIC_LOAD_NOTIFICATION>
+    GCP_PROJECT_ID: <+serviceVariables.GCP_PROJECT_ID>
   secrets:
 
