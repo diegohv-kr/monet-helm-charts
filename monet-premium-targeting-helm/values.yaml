@@ -65,5 +65,6 @@ env:
   config:
     APPLICATION_VERSION: <+artifact.tag>
     DATA_CENTER: <+infra.connectorRef>
+    JASYPT_KEY: <+serviceVariables.JASYPT_KEY>
   secrets:
 
