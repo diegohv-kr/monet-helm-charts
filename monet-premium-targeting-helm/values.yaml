@@ -66,5 +66,6 @@ env:
     APPLICATION_VERSION: <+artifact.tag>
     DATA_CENTER: <+infra.connectorRef>
     JASYPT_KEY: <+serviceVariables.JASYPT_KEY>
+    CASSANDRA_CONTACT_POINTS: <+serviceVariables.CASSANDRA_CONTACT_POINTS>
   secrets:
 
