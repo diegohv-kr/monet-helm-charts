@@ -1,4 +1,4 @@
-name: monet-pqs
+name: pqs
 
 image: <+artifact.image>
 dockercfg: <+artifact.imagePullSecret>
