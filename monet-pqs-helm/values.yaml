@@ -1,4 +1,4 @@
-name: pqs
+name: monet-pqs
 
 image: <+artifact.image>
 dockercfg: <+artifact.imagePullSecret>
@@ -41,14 +41,14 @@ resources:
 probes:
   readiness:
     enabled: true
-    httpPath: /v1/pqs/health
+    httpPath: /v1/health
     initialDelaySeconds: 60
     periodSeconds: 10
     timeoutSeconds: 2
     failureThreshold: 3
   liveness:
     enabled: true
-    httpPath: /v1/pqs/health
+    httpPath: /v1/health
     initialDelaySeconds: 60
     periodSeconds: 10
     timeoutSeconds: 2
@@ -65,5 +65,7 @@ env:
   config:
     APPLICATION_VERSION: <+artifact.tag>
     DATA_CENTER: <+infra.connectorRef>
+    LOG_LEVEL: INFO
+    PYTHON_ENV: prd
   secrets:
 
