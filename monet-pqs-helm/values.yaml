@@ -67,5 +67,7 @@ env:
     DATA_CENTER: <+infra.connectorRef>
     LOG_LEVEL: INFO
     PYTHON_ENV: prd
+    LDAP_SERVER: ldapstage.ha.kroger.com
+    LDAP_GROUP: ws-monet-semantic-pqs-readers
   secrets:
 
