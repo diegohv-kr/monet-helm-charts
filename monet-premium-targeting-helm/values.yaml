@@ -72,4 +72,5 @@ env:
     GCP_TOPIC_LOAD_NOTIFICATION: <+serviceVariables.GCP_TOPIC_LOAD_NOTIFICATION>
     GCP_PROJECT_ID: <+serviceVariables.GCP_PROJECT_ID>
   secrets:
+    GCP_SERVICE_ACCOUNT: <+serviceVariables.GCP_SERVICE_ACCOUNT>
 
