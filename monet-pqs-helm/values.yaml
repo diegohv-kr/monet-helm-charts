@@ -66,8 +66,15 @@ env:
     APPLICATION_VERSION: <+artifact.tag>
     DATA_CENTER: <+infra.connectorRef>
     LOG_LEVEL: INFO
-    PYTHON_ENV: prd
-    LDAP_SERVER: ldapstage.ha.kroger.com
-    LDAP_GROUP: ws-monet-semantic-pqs-readers
+    PYTHON_ENV: <+serviceVariables.PYTHON_ENV>
+    LDAP_SERVER: <+serviceVariables.LDAP_SERVER>
+    LDAP_GROUP: <+serviceVariables.LDAP_GROUP>
+    GOOGLE_APPLICATION_CREDENTIALS: /home/containeruser/app/secrets/bucket-credentials.json
+    MODEL_REPO: <+stage.variables.MODEL_REPO>
+    PQS_BUCKET_PATH: <+serviceVariables.MODEL_BUCKET_PATH>
   secrets:
 
+gcsCredentials:
+  secretName: pqs-gcs-creds
+  secretMount: /home/containeruser/app/secrets
+  secretValue: <+serviceVariables.SERVICE_ACCOUNT_CREDENTIALS>
