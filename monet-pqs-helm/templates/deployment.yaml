@@ -9,7 +9,7 @@ data:
 ---
 {{- end}}
 
-  {{- if .Values.env.secrets}}
+{{- if .Values.env.secrets}}
 apiVersion: v1
 kind: Secret
 metadata:
@@ -20,7 +20,7 @@ stringData:
 ---
 {{- end}}
 
-  {{- if .Values.dockercfg}}
+{{- if .Values.dockercfg}}
 apiVersion: v1
 kind: Secret
 metadata:
@@ -32,7 +32,7 @@ data:
   .dockercfg: {{.Values.dockercfg}}
 type: kubernetes.io/dockercfg
 ---
-  {{- end}}
+{{- end}}
 
 apiVersion: apps/v1
 kind: Deployment
@@ -60,6 +60,11 @@ spec:
       imagePullSecrets:
         - name: {{.Values.name}}-dockercfg
       {{- end}}
+      volumes:
+        - name: gcs-creds
+          secret:
+            defaultMode: 420
+            secretName: {{ .Values.gcsCredentials.secretName }}
       containers:
         - name: {{.Values.name}}
           securityContext:
@@ -75,6 +80,10 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.labels['app.kubernetes.io/stage']
+          volumeMounts:
+            - name: gcs-creds
+              mountPath: {{ .Values.gcsCredentials.secretMount }}
+              readOnly: true
           {{- if .Values.probes.liveness.enabled}}
           livenessProbe:
             httpGet:
