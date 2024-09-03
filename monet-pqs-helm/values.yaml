@@ -70,8 +70,8 @@ env:
     LDAP_SERVER: <+serviceVariables.LDAP_SERVER>
     LDAP_GROUP: <+serviceVariables.LDAP_GROUP>
     GOOGLE_APPLICATION_CREDENTIALS: /home/containeruser/app/secrets/bucket-credentials.json
-    MODEL_REPO: <+stage.variables.MODEL_REPO>
-    PQS_BUCKET_PATH: <+serviceVariables.MODEL_BUCKET_PATH>
+    MODEL_REPO: <+serviceVariables.MODEL_REPO>
+    PQS_BUCKET_PATH: <+stage.variables.MODEL_BUCKET_PATH>
   secrets:
 
 gcsCredentials:
