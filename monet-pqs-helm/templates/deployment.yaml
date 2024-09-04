@@ -104,6 +104,17 @@ spec:
             timeoutSeconds: {{.Values.probes.readiness.timeoutSeconds}}
             failureThreshold: {{.Values.probes.readiness.failureThreshold}}
           {{- end}}
+          {{- if .Values.probes.startup.enabled}}
+          startupProbe:
+            httpGet:
+              path: {{.Values.probes.startup.httpPath}}
+              port: {{.Values.servicePort}}
+            initialDelaySeconds: {{.Values.probes.startup.initialDelaySeconds}}
+            periodSeconds: {{.Values.probes.startup.periodSeconds}}
+            successThreshold: {{.Values.probes.startup.successThreshold}}
+            timeoutSeconds: {{.Values.probes.startup.timeoutSeconds}}
+            failureThreshold: {{.Values.probes.startup.failureThreshold}}
+          {{- end}}
           {{- if .Values.resources}}
           resources:
             requests:
