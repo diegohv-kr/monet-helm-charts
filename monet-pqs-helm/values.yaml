@@ -34,9 +34,9 @@ autoscaling:
 resources:
   requests:
     cpu: 500m
-    memory: 8Gi
+    memory: 14Gi
   limits:
-    memory: 8Gi
+    memory: 14Gi
 
 probes:
   readiness:
